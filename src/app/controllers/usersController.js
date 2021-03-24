@@ -7,6 +7,13 @@ class usersController {
         res.render('users/login')
     }
 
+    // GET /users/logout
+    logout(req, res) {
+        req.logout()
+        req.flash('success_mgs', 'You are logged out')
+        res.redirect('/')
+    }
+
     // GET /users/register
     register(req, res) {
         res.render('users/register')
@@ -18,7 +25,7 @@ class usersController {
             successRedirect: '/todos',
             failureRedirect: '/users/login',
             failureFlash: true
-        })(req,res,next)
+        })(req, res, next)
     }
 
 
@@ -39,25 +46,35 @@ class usersController {
                 password: req.body.password,
                 password2: req.body.password2
             })
-        } else {
-            User.findOne({email: req.body.email})
+        } 
+        else 
+        {
+            User.findOne({ email: req.body.email })
                 .then((user) => {
                     if (user) {
-                        req.flash('error_msg', 'A user with the same email already exists');
-                        res.redirect('/users/register');
+                    req.flash('error_msg', 'A user with the same email already exists');
+                    res.redirect('/users/register');
                     } else {
                         const newUser = new User({
                             name: req.body.name,
                             email: req.body.email,
                             password: req.body.password
                         });
-                        newUser.save()
-                            .then(() => {
-                                res.redirect('/users/login')
-                            })
-                            .catch(next)
+                        bcrypt.genSalt(10, (err, salt) => {
+                            bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if (err) throw err;
+                            newUser.password = hash;
+                            newUser.save().then((user) => {
+                                req.flash('success_msg', 'You are now registered and can login');
+                                res.redirect('/users/login');
+                            }).catch(err => {
+                                console.log(err);
+                                return;
+                            });
+                            });
+                        });
                     }
-                });
+                })
         }
     }
 

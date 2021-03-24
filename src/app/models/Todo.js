@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoose_delete = require('mongoose-delete')
 const Schema = mongoose.Schema
 
 // create schema
@@ -22,6 +23,11 @@ const TodoSchema = new Schema({
   dueDate: {
     type: String
   }
+})
+
+TodoSchema.plugin(mongoose_delete, {
+  deletedAt: true,
+  overrideMethods: 'all' 
 })
 
 module.exports = mongoose.model('Todo', TodoSchema)

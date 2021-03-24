@@ -4,17 +4,21 @@ const handlebars = require('express-handlebars')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('passport')
+const methodOverride = require('method-override')
 
 
 const db = require('./config/db')
 // Connect db
 db.connect()
 
+
 // passport config
 require('./config/passport')(passport)
 
 const app = express()
 const port = 3000
+
+
 
 const route = require('./routes')
 
@@ -28,6 +32,8 @@ app.use(
 )
 app.use(express.json())
 
+app.use(methodOverride('_method'))
+
 // Template engine
 app.engine(
   'hbs',
@@ -38,6 +44,7 @@ app.engine(
 
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resources','views'))
+
 
 
 // express session

@@ -9,3 +9,12 @@
     {{error_msg}}
   </div>
 {{/if}}
+
+<script>
+  const msg = document.querySelector('.alert')
+  if(msg) {
+    setTimeout(function() {
+      msg.remove()
+    }, 5000)
+  }
+</script>
