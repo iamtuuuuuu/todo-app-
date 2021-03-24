@@ -4,5 +4,7 @@ const usersController = require('../app/controllers/usersController')
 
 route.get('/login', usersController.login)
 route.get('/register', usersController.register)
+route.post('/login', usersController.postLogin)
+route.post('/register', usersController.postRegister)
 
 module.exports = route
