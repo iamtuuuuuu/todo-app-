@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   express.urlencoded({
-      extended: true,
+    extended: true,
   }),
 )
 app.use(express.json())
@@ -38,12 +38,12 @@ app.use(methodOverride('_method'))
 app.engine(
   'hbs',
   handlebars({
-      extname: '.hbs',
+    extname: '.hbs',
   }),
 )
 
 app.set('view engine', 'hbs')
-app.set('views', path.join(__dirname, 'resources','views'))
+app.set('views', path.join(__dirname, 'resources', 'views'))
 
 
 
@@ -63,11 +63,11 @@ app.use(passport.session());
 app.use(flash());
 
 // Global variables
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.success_msg = req.flash('success_msg'); // needed for flash to work
-  res.locals.error_msg = req.flash('error_msg');     // needed for flash to work
-  res.locals.error = req.flash('error');             // needed for flash to work
-  res.locals.user = req.user || null;                // needed for passport login/logout to work
+  res.locals.error_msg = req.flash('error_msg'); // needed for flash to work
+  res.locals.error = req.flash('error'); // needed for flash to work
+  res.locals.user = req.user || null; // needed for passport login/logout to work
   next();
 })
 
